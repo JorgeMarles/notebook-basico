@@ -41,3 +41,65 @@ struct palindromic_tree {
         n++;
     }
 };
+
+const int F_CHAR = 'a';
+
+struct Node {
+	map<int, int> next;
+	int link, len, cnt;
+	int beginIndex, endIndex;
+	
+	Node(int _len, int _link = 0, int index) : len(_len), link(_link), cnt(0) {
+		if (len > 0) {
+			beginIndex = index - len - 1;
+			endIndex = index;
+		}
+		else beginIndex = endIndex = len;
+	} 
+
+	int& operator [] (int i) {
+		if (next.count(i)) return next[i];
+		return -1;
+	}
+};
+
+struct Palindromic_tree {
+	vector<Node> nodes; 
+	string str;
+	int last;
+	
+	Palindromic_tree(string s = "") {
+		last = 0;
+		nodes.push_back(Node(-1));
+		nodes.push_back(Node(0));
+		for (auto &c : s) add_char(c);
+	}
+	
+	int get_sufix(int p, int index) {
+		while (index - nodes[p].len - 1 < 0 || str[index - nodes[p].len - 1] != str[index]) {
+			p = nodes[p].link;
+		}
+		return p;
+	}
+	
+	void add_char(char ch) {
+		int index = str.size();
+		str += ch;
+		int p = get_sufix(last, index), c = ch - F_CHAR;
+		if (nodes[p][c] == -1) {
+			nodes.push_back(Node(p.len + 2, index));
+			nodes[p][c] = last;
+			if (nodes[last].len > 1) {
+				p = get_link(nodes[p].link, index);
+				nodes[last].link = nodes[p][c];
+			}
+			else {
+				nodes[last].link = 1;
+			}			
+		}
+		else {
+			last = nodes[p][c];
+		}
+		nodes[last].cnt++;
+	}
+};

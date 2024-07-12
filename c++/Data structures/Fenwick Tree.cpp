@@ -26,3 +26,35 @@ int lower_find(int val) { // last value < or <= to val
     }
     return idx;
 }
+
+Versión como struct en 1 index
+
+template <typename T>
+struct BIT {
+	vector<T> bit;
+	int n;
+
+	BIT(int _n) {
+		n = _n;
+		bit.assign(n + 2, 0);
+	}
+	
+	void add(int idx, T value) {
+		for(; idx <= n; idx += idx & -idx) bit[idx] += value;
+	}
+
+	T rsq(int idx) {
+		T sum = 0;
+		for(; idx >= 1; idx -= idx & -idx) sum += bit[idx];
+		return sum;
+	}
+
+	T rsq(int l, int r) { return rsq(r) - rsq(l - 1); }
+
+	/* For range update, point queries*/
+	// Use rsq with one argument -> value[i] = rsq(i)
+	void range_add(int l, int r, int value) {
+		add(l, value);
+		add(r + 1, -value);
+	}
+};

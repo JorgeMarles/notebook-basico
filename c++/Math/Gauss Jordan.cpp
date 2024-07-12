@@ -42,32 +42,39 @@ int gauss(vector<vector<int>>& a, vector<int> &ans) {
 
 Gauss jordan para operaciones de xor
 
-int gauss(vector<bitset<N>> &a, vector<bitset<N>> &b, int n, int m, vector<bitset<N>> &ans) {
-    vector<int> where(m, -1);
-    for (int col = 0, row = 0; col < m && row < n; ++col) {
-        for (int i = row; i < n; ++i) {
-            if (a[i][col]) {
-                swap(a[i], a[row]);
-                swap(b[i], b[row]);
-                break;
-            }
-        }
-        if (!a[row][col])continue;
-        where[col] = row;
-        for (int i = 0; i < n; ++i) 
-            if (i != row && a[i][col]) {
-                a[i] ^= a[row];
-                b[i] ^= b[row];
-            }
-        ++row;
+const int N = 100;
+
+int gauss (vector<bitset<N>> &a, vector<bool> &b, int n, int m, vector<bool> &ans) {
+  vector<int> pivot(m, -1);
+  for(int col = 0, row = 0; col < m && row < n; ++col) {
+    for(int i = row; i < n; ++i){
+      if(a[i][col]){
+        swap(a[i], a[row]);
+        swap(b[i], b[row]);
+        break;
+      }
     }
-    ans.assign(m, 0);
-    for (int i = 0; i < m; ++i) 
-        if (where[i] != -1) ans[i] = b[where[i]];
-    for (int i = 0; i < n; ++i) {
-        if (ans[i] == 0) return 0;
+    if(!a[row][col])continue;
+    pivot[col] = row;
+    for(int i = 0; i < n; ++i)
+      if(i != row && a[i][col]) {
+        a[i] ^= a[row];
+        b[i] = b[i] ^ b[row];
+      }
+    ++row;
+  }
+  
+  ans.assign(m, 0);
+  for(int i = 0; i < m; ++i)
+    if(pivot[i] != -1) ans[i] = b[pivot[i]];
+  for(int i = 0; i < n; ++i) {
+    bool xr = 0;
+    for(int j = 0; j < m; ++j) {
+        xr ^= ans[j] & a[i][j];
     }
-    for (int i = 0; i < m; ++i) 
-        if (where[i] == -1) return -1; // infinite solutions
-    return 1;
+    if(xr != b[i]) return 0;
+  }
+  for(int i = 0; i < m; ++i)
+    if(pivot[i] == -1) return -1; /// infinite solutions
+  return 1;
 }

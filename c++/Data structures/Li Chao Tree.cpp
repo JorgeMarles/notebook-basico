@@ -2,10 +2,10 @@ typedef int T;
 const T oo = 1e9;
 
 struct Line {
-    // A representation of a first-degree polynomial function
+    /* Representa un polinomio de primer grado */
     T m, b;
 
-    // Change -oo for oo in case of minimization 
+    /* Cambiar -oo por oo en caso de quere minimizar la funcion */
     Line() : m(0), b(-oo) {}
 
     Line(T _m, T _b) : m(_m), b(_b) {}
@@ -19,7 +19,7 @@ struct LiChaoTree {
     vector<Line> nodes;
     int n;
 
-    // Create a LiChaoTree with a range [0, n) that maximizes the value of the functions
+    /* Crea un LiChaoTree que contiene el rango [0, n), donde cada posicion es el punto maximo entre todas las funciones */
     LiChaoTree(int _n) {
         n = _n;
         nodes.assign(4*n, Line());
@@ -31,7 +31,7 @@ struct LiChaoTree {
 
     void add_line(int p, int l, int r, Line nw) {
         int m = (l + r) / 2;
-        // Change > for < in case of minimize
+        /* Cambiar > por < en caso de querer minimizar la funcion */
         bool left = nw.f(l) > nodes[p].f(l);
         bool middle = nw.f(m) > nodes[p].f(m);
         if(middle) {
@@ -52,7 +52,7 @@ struct LiChaoTree {
         if(r - l == 1) {
             return nodes[p].f(x);
         }
-        // Change max for min in case of minimize
+        /* Cambiar max por min en caso de querer minimizar la funcion */
         if(x < m) {
             return max(nodes[p].f(x), get(2 * p, l, m, x));
         }

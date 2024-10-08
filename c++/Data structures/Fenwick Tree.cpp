@@ -51,8 +51,8 @@ struct BIT {
 
 	T rsq(int l, int r) { return rsq(r) - rsq(l - 1); }
 
-	/* For range update, point queries*/
-	// Use rsq with one argument -> value[i] = rsq(i)
+	/* Para range update y point queries*/
+	/* Para preguntar la posicion i usar rsq con un argumento -> value[i] = rsq(i) */ 
 	void range_add(int l, int r, int value) {
 		add(l, value);
 		add(r + 1, -value);

@@ -46,7 +46,7 @@ struct Treap {
         }
         if (node->lazy == neutro) return;
         node->value = node->lazy;
-        /*Si la actualización depende de los hijos, usar el método update para facilitar el proceso*/
+        /* Si la actualización depende de los hijos, usar el método update para facilitar el proceso */
         node->sbt_value = node->lazy * node->sbt_size;
         if (node->left != nullptr) {
             node->left->lazy = node->lazy;

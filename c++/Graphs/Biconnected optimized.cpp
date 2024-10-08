@@ -1,6 +1,6 @@
 Dado un grafo no dirigido halla el block cut tree (Esta es una versión optimizada almacenando las componentes en vectores)
 WARNING : La cantidad de nodos del block cut tree puede ser mayor al input, colocar el doble.
-const int MX = 1e5+5; // Cantidad maxima de nodos
+const int MX = 2e5+5; // Cantidad maxima de nodos
 vector<int> g[MX]; // Lista de adyacencia
 int low[MX], num[MX], cont;
 stack<int> st;

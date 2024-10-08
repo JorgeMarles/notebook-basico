@@ -5,12 +5,12 @@ const T inf = 1e18;
 
 struct hung {
     int n, m;
-    vector<T> u, v; vector<int> p, way;
+    vector<T> u, v; vector<int> p, way, ans;
     vector<vector<T>> g;
 
     hung(int n, int m):
         n(n), m(m), g(n+1, vector<T>(m+1, inf-1)),
-        u(n+1), v(m+1), p(m+1), way(m+1) {}
+        u(n+1), v(m+1), p(m+1), way(m+1), ans(n+1) {}
 
     void set(int u, int v, T w) { g[u+1][v+1] = w; }
 
@@ -36,6 +36,8 @@ struct hung {
                 int j1 = way[j0]; p[j0] = p[j1]; j0 = j1;
             } while (j0);
         }
+        for (int j = 1; j <= m; ++j)
+            ans[p[j]] = j;
         return -v[0];
     }
 };
